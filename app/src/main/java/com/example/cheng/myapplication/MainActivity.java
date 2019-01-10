@@ -1,9 +1,8 @@
 package com.example.cheng.myapplication;
 
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.example.cheng.myapplication.room.Address;
@@ -19,8 +18,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
   DataBase dataBase;
   AddressDao addressDao;
   ConnectDao connectDao;
@@ -33,16 +30,6 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    // checkAdminPermission();
-    // startSyncService();
-    // new Thread(new Runnable() {
-    //   @Override public void run() {
-    //     connect("http://www.baidu.com");
-    //   }
-    // }).start();
-    // String personPassword = "sx99999";
-    // String md5Pwd = EncryptUtils.encryptMD5ToString(personPassword);
-    // Log.d("cxg", md5Pwd);
 
     btnDelete = findViewById(R.id.btn_delete);
     dataBase = DataBase.getInstance(this);
@@ -54,7 +41,29 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
         new Thread(new Runnable() {
           @Override public void run() {
-            addressDao.delete(1);
+            new Thread(new Runnable() {
+              @Override public void run() {
+
+                List<Address> addresses = connectDao.getAddressForUsers(1);
+                if (addresses.size() > 0) {
+                  for (Address address : addresses) {
+                    Log.d("cxg", "addresses " + address.getStreet());
+                  }
+                } else {
+                  Log.d("cxg", "addresses 为空");
+                }
+
+                List<User> users = connectDao.getUsersForAddress(1);
+                if (users.size() > 0) {
+                  for (User user : users) {
+                    Log.d("cxg", "users " + user.getFirstName());
+                  }
+                } else {
+                  Log.d("cxg", "users 为空");
+                }
+
+              }
+            }).start();
 
           }
         }).start();
@@ -73,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         addressDao.insert(address);
         User user = new User("合肥1人");
         userDao.insert(user);
-        Connect connect = new Connect(1, 1);
+        Connect connect = new Connect(1, 2);
         connectDao.insert(connect);
 
       }
