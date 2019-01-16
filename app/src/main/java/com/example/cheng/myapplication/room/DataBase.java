@@ -17,9 +17,9 @@ public abstract class DataBase extends RoomDatabase {
 
 
   public static synchronized DataBase getInstance(Context context) {
-    if (instance == null) {
+    // if (instance == null) {
       instance = create(context);
-    }
+    // }
     return instance;
   }
 

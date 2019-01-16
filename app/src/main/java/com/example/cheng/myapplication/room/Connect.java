@@ -3,6 +3,7 @@ package com.example.cheng.myapplication.room;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 
 /**
@@ -31,6 +32,16 @@ public class Connect {
   public int addressId;
 
 
+
+  public Connect() {
+  }
+
+  @Ignore
+  public Connect(int userId) {
+    this.userId = userId;
+  }
+
+  @Ignore
   public Connect(int userId, int addressId) {
     this.userId = userId;
     this.addressId = addressId;

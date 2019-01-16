@@ -1,6 +1,7 @@
 package com.example.cheng.myapplication.room;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
@@ -15,6 +16,16 @@ public class User {
   public String firstName;
 
 
+  public User() {
+  }
+
+
+  @Ignore
+  public User(int id) {
+    this.id = id;
+  }
+
+@Ignore
   public User(String firstName) {
     this.firstName = firstName;
   }
